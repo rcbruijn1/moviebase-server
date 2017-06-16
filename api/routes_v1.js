@@ -6,10 +6,12 @@ var routes = express.Router();
 var db = require('../config/db');
 
 
-routes.get('/movies', function(req, res) {
+routes.get('/movies/:filmid', function(req, res) {
+
+    var filmId = req.params.filmid;
     res.contentType('application/json');
 
-    db.query('SELECT * FROM film', function(error, rows, fields) {
+    db.query('SELECT * FROM film WHERE film_id=?', [filmId], function(error, rows, fields) {
         if (error) {
             res.status(401).json(error);
         } else {
@@ -17,5 +19,7 @@ routes.get('/movies', function(req, res) {
         };
     });
 });
+
+
 
 module.exports = routes;
