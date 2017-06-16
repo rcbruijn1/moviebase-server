@@ -3,25 +3,19 @@
  */
 var express = require('express');
 var routes = express.Router();
+var db = require('../config/db');
 
-var jsonObject1 = {
-    tekst: "Dit is een JSON"
-};
 
-var jsonObject2 = {
-    tekst: "Nog een JSON?"
-};
-
-routes.get('/hello', function (req, res) {
+routes.get('/movies', function(req, res) {
     res.contentType('application/json');
-    res.status(200);
-    res.json(jsonObject1);
-});
 
-routes.get('/goodbye', function (req, res) {
-    res.contentType('application/json');
-    res.status(200);
-    res.json(jsonObject2);
+    db.query('SELECT * FROM film', function(error, rows, fields) {
+        if (error) {
+            res.status(401).json(error);
+        } else {
+            res.status(200).json({ result: rows });
+        };
+    });
 });
 
 module.exports = routes;

@@ -1,6 +1,8 @@
 var http = require('http');
 var express = require('express');
 var routes_v1 = require ('./api/routes_v1');
+var config = require('./config/config');
+var db = require('./config/db');
 
 
 var app = express();
