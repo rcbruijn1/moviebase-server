@@ -4,13 +4,13 @@
 var mysql = require('mysql');
 var config = require('../config/config');
 
-var connectionSettings = {
-    host: '146.185.130.82',
-    user: '1011',
-    password: '1234',
-    database: '1011',
+var connectionSettings = ({
+    host: config.dbHost,
+    user: config.dbUser,
+    password: config.dbPass,
+    database: config.dbDatabase,
     debug: false
-}
+});
 
 var connection = mysql.createConnection(connectionSettings);
 

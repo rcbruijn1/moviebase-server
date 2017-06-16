@@ -2,6 +2,7 @@
     "webPort": "8080",
     "dbHost": "146.185.130.82",
     "dbUser": "1011",
+    "dbPass": "1234",
     "dbDatabase": "1011"
 
 }
