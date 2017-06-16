@@ -20,6 +20,20 @@ routes.get('/movies/:filmid', function(req, res) {
     });
 });
 
+routes.get('/movies/', function(req, res) {
+
+
+    res.contentType('application/json');
+
+    db.query('SELECT * FROM film LIMIT 10', function(error, rows, fields) {
+        if (error) {
+            res.status(401).json(error);
+        } else {
+            res.status(200).json({ result: rows });
+        };
+    });
+});
+
 
 
 module.exports = routes;
