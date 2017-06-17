@@ -1,5 +1,5 @@
 {
-  "name": "RestApiJWT",
+  "name": "Moviebase-server",
   "version": "0.0.0",
   "private": true,
   "scripts": {
