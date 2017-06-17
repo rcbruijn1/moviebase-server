@@ -20,7 +20,7 @@ function GetAllMovies(done) {
 }
 
 function GetOneMovie(id, done) {
-  db.get().query('SELECT * FROM film WHERE film_id ' + id, function(err, rows, fields) {
+  db.get().query('SELECT * FROM film WHERE film_id = ' + id, function(err, rows, fields) {
     if (err) throw err;
     done(rows);
   })
@@ -47,3 +47,17 @@ app.get('/api/v1/films', function(req, res) {
     });
   }
 });
+
+app.get('/api/v1/films/:filmid', function (req,res) {
+    if (isNaN(req.params.filmid)) {
+      return res.status(400).send("You must fill in a film ID")}
+
+      GetOneMovie(req.params.filmid, function (film) {
+        return res.status(200).send({result : film});
+
+      })
+
+
+
+
+})
