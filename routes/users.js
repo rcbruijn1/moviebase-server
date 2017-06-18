@@ -4,7 +4,8 @@ var express = require('express'),
     jwt     = require('jsonwebtoken')
     db      = require('../db');
 var app = module.exports = express.Router();
-var secretKey = "secretKey";
+var secretKey = "RBDB";
+
 function createToken(user) {
   return jwt.sign(_.omit(user, 'password'), config.secretKey, { expiresIn: 60*60*5 });
 }

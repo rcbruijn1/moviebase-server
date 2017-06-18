@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var films = require('./routes/films');
+var rentals = require('./routes/rentals');
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use(users);
 app.use(films);
+app.use(rentals);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
