@@ -12,7 +12,7 @@ var  jwtCheck = jwt({
     secret: config.secretKey
 });
 
-function GetUserRental(id, done) {
+function GetRental(id, done) {
     db.get().query('SELECT * FROM rental WHERE customer_id = ' + id, function(err, rows, fields) {
         if (err) throw err;
         done(rows);
@@ -25,14 +25,14 @@ app.get('/api/v1/rentals/:customerid', function (req,res) {
     if (isNaN(req.params.customerid)) {
         return res.status(400).send("You must fill in a customer id")}
 
-    GetUserRental(req.params.customerid, function (rental) {
+    GetRental(req.params.customerid, function (rental) {
         return res.status(200).send({result : rental});
 
     })
 });
 
 
-function PostUserRental(userId, inventoryId, done) {
+function MakeRental(userId, inventoryId, done) {
     db.get().query('INSERT INTO rental (rental_date, inventory_id, customer_id,staff_id,last_update) VALUES (2016/01/01,' + inventoryId + ',' + userId + ', 1, CURRENT_TIMESTAMP)',
         function (err, rows,fields) {
         if (err) throw err;
@@ -49,7 +49,7 @@ app.post('/api/v1/rentals/:customerid/:inventoryid', function (req,res) {
         return res.status(400).send("You must fill in a customer id followed by a / and an inventoryid")}
     
 
-        PostUserRental(req.params.customerid, req.params.inventoryid, function (rent) {
+        MakeRental(req.params.customerid, req.params.inventoryid, function (rent) {
             return res.status(200).send({result : rent});
 
         })
@@ -74,20 +74,20 @@ app.delete('/api/v1/rentals/:customerid/:inventoryid', function (req,res) {
     })
 });
 
-function ChangeRental(inventoryId, customerId, done) {
-    db.get().query('UPDATE rental SET inventory_id = ' + inventoryId + ' WHERE customer_id = ' + customerId, function (err, rows,fields) {
+function ChangeRental(inventoryId, rentalId, done) {
+    db.get().query('UPDATE rental SET inventory_id = ' + inventoryId + ' WHERE rental_id = ' + rentalId, function (err, rows,fields) {
         if (err) throw err;
        done(rows);
 
     });
 }
 
-app.put('/api/v1/rentals/:inventoryid/:customerid', function (req,res) {
-    if (isNaN(req.params.inventoryid) && isNaN(req.params.customerid)){
+app.put('/api/v1/rentals/:inventoryid/:rentalid', function (req,res) {
+    if (isNaN(req.params.inventoryid) && isNaN(req.params.rentalid)){
         return res.status(400).send("You must fill in the new inventory id followed by a / + the customer id")}
 
 
-    ChangeRental(req.params.inventoryid, req.params.customerid, function(re){
+    ChangeRental(req.params.inventoryid, req.params.rentalid, function(re){
         return res.status(200).send({result : re});
 
     });
