@@ -66,7 +66,7 @@ app.post('/api/v1/login', function(req, res) {
   }
   getUserDB(req.body.username, function(user){
     if (!user) {
-      return res.status(401).send("The username is not existing");
+      return res.status(402).send("The username is not existing");
     }
     if (user.password !== req.body.password) {
       return res.status(401).send("The username or password don't match");
