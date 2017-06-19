@@ -74,20 +74,20 @@ app.delete('/api/v1/rentals/:customerid/:inventoryid', function (req,res) {
     })
 });
 
-function ChangeRental(inventoryId, customer, done) {
-    db.get().query('UPDATE rental SET inventory_id = ' + inventoryId + ' WHERE customer_id = ' + customer, function (err, rows,fields) {
+function ChangeRental(inventoryId, customerId, done) {
+    db.get().query('UPDATE rental SET inventory_id = ' + inventoryId + ' WHERE customer_id = ' + customerId, function (err, rows,fields) {
         if (err) throw err;
-        done(rows);
+       done(rows);
 
     });
 }
 
-app.put('/api/v1/rentals/:customerid/:oudinventoryid/:nwinventoryid', function (req,res) {
-    if (isNaN(req.params.customerid) && isNaN(req.params.oudinventoryid) && isNaN(req.params.nwinventoryid)){
-        return res.status(400).send("You must fill in a customer id followed by a / + the old inventory id, followed by / + a date, followed by / + the new inventory id")}
+app.put('/api/v1/rentals/:inventoryid/:customerid', function (req,res) {
+    if (isNaN(req.params.inventoryid) && isNaN(req.params.customerid)){
+        return res.status(400).send("You must fill in the new inventory id followed by a / + the customer id")}
 
 
-    ChangeRental(req.params.customerid, req.params.oudinventoryid, req.params.nwinventoryid, function(re){
+    ChangeRental(req.params.inventoryid, req.params.customerid, function(re){
         return res.status(200).send({result : re});
 
     });
