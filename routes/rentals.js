@@ -74,8 +74,8 @@ app.delete('/api/v1/rentals/:customerid/:inventoryid', function (req,res) {
     })
 });
 
-function ChangeRental(user, inventoryNieuw, inventory, done) {
-    db.get().query('UPDATE rental SET inventory_id = ' + inventoryNieuw + ' WHERE customer_id = ' + user + ' AND inventory_id = ' + inventory, function (err, rows,fields) {
+function ChangeRental(inventoryId, customer, done) {
+    db.get().query('UPDATE rental SET inventory_id = ' + inventoryId + ' WHERE customer_id = ' + customer, function (err, rows,fields) {
         if (err) throw err;
         done(rows);
 
