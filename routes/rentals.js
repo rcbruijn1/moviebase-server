@@ -13,7 +13,7 @@ var  jwtCheck = jwt({
 });
 
 function GetRental(id, done) {
-    db.get().query('SELECT * FROM rental WHERE customer_id = ' + id, function(err, rows, fields) {
+    db.get().query('SELECT * FROM rental', function(err, rows, fields) {
         if (err) throw err;
         done(rows);
     });
@@ -21,9 +21,7 @@ function GetRental(id, done) {
 
 app.use('/api/v1/rentals/', jwtCheck);
 
-app.get('/api/v1/rentals/:customerid', function (req,res) {
-    if (isNaN(req.params.customerid)) {
-        return res.status(400).send("You must fill in a customer id")}
+app.get('/api/v1/rentals/', function (req,res) {
 
     GetRental(req.params.customerid, function (rental) {
         return res.status(200).send({result : rental});
