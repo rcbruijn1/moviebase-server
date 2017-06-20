@@ -23,7 +23,7 @@ app.use('/api/v1/rentals/', jwtCheck);
 
 app.get('/api/v1/rentals/', function (req,res) {
 
-    GetRental(req.params.customerid, function (rental) {
+    GetRental(function (rental) {
         return res.status(200).send({result : rental});
 
     })
