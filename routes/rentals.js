@@ -13,7 +13,7 @@ var  jwtCheck = jwt({
 });
 
 function GetRental(id, done) {
-    db.get().query('SELECT film.title, film.description, rental.customer_id, rental.inventory_id  FROM rental INNER JOIN inventory ON rental.inventory_id=inventory.inventory_id INNER JOIN film ON inventory.film_id=film.film_id', function(err, rows, fields) {
+    db.get().query('SELECT film.title, film.description, rental.customer_id, rental.inventory_id  FROM rental INNER JOIN inventory ON rental.inventory_id=inventory.inventory_id INNER JOIN film ON inventory.film_id=film.film_id WHERE rental_id >= 1 ', function(err, rows, fields) {
         if (err) throw err;
         done(rows);
     });
