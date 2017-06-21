@@ -87,8 +87,8 @@ app.get('/user/check/:username', function (req, res) {
     if (!req.params.username) {
         return res.status(400).send("You must send a username");
     }
-    getUserDB(req.params.username, req.params.customerid, function (user) {
-        if (!user) res.status(201).send({username: "OK"});
+    getUserDB(req.params.username, req.params.customerid, function (user, customer) {
+        if (!user) res.status(201).send({username: "OK"},{result: customer });
         else res.status(400).send("A user with that username already exists");
     });
 });
