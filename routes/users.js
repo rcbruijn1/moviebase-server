@@ -45,7 +45,8 @@ app.post('/api/v1/register', function (req, res) {
                 password: req.body.password,
                 first_name: req.body.firstName,
                 last_name: req.body.lastName,
-                email: req.body.email
+                email: req.body.email,
+                customer_id: req.body.customer
             };
             db.get().query('INSERT INTO customer SET ?', [user], function (err, result) {
                 if (err) throw err;
@@ -71,7 +72,7 @@ app.post('/api/v1/login', function (req, res) {
     if (!req.body.username || !req.body.password) {
         return res.status(400).send("You must send the username and the password");
     }
-    getUserDB(req.body.username, function (user) {
+    getUserDB(req.body.username, req.body.customer_id, function (user,customer) {
         if (!user) {
             return res.status(402).send("The username is not existing");
         }
@@ -79,7 +80,8 @@ app.post('/api/v1/login', function (req, res) {
             return res.status(401).send("The username or password don't match");
         }
         res.status(201).send({
-            id_token: createToken(user)
+            id_token: createToken(user),
+            customer_id:(customer)
         });
     });
 });
@@ -87,8 +89,8 @@ app.get('/user/check/:username', function (req, res) {
     if (!req.params.username) {
         return res.status(400).send("You must send a username");
     }
-    getUserDB(req.params.username, req.params.customerid, function (user, customer) {
-        if (!user) res.status(201).send({username: "OK"},{result: customer });
+    getUserDB(req.params.username, function (user) {
+        if (!user) res.status(201).send({username: "OK"});
         else res.status(400).send("A user with that username already exists");
     });
 });
