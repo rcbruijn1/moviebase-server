@@ -18,6 +18,7 @@ function getUserDB(username, done) {
     });
 }
 
+
 // GET Request om alle customers die zijn geregistreerd op te halen
 function getAllUsersDB(done) {
     db.get().query('SELECT * FROM customer', function (err, rows, fields) {
@@ -26,10 +27,29 @@ function getAllUsersDB(done) {
     });
 }
 
-app.get('/api/v1/user', function (reg, res) {
+
+
+app.get('/api/v1/user', function (req, res) {
     getAllUsersDB(function (rows) {
         res.status(200).send({result: rows});
     })
+});
+
+
+// Geeft informatie over de customer mee bij het inloggen
+function getSingleUsersDB(singleName,done) {
+    db.get().query('SELECT * FROM customer WHERE username = "' + singleName + ' "'
+        , function (err, rows, fields) {
+        if (err) throw err;
+        done(rows);
+    });
+}
+
+app.post('/api/v1/login/:username', function (req, res) {
+    getSingleUsersDB(req.params.username, function (test) {
+        res.status(200).send({result:test});
+    })
+
 });
 
 //Functie om een nieuwe user te registreren
@@ -46,6 +66,7 @@ app.post('/api/v1/register', function (req, res) {
                 first_name: req.body.firstName,
                 last_name: req.body.lastName,
                 email: req.body.email
+
             };
             db.get().query('INSERT INTO customer SET ?', [user], function (err, result) {
                 if (err) throw err;
@@ -78,9 +99,14 @@ app.post('/api/v1/login', function (req, res) {
         if (user.password !== req.body.password) {
             return res.status(401).send("The username or password don't match");
         }
-        res.status(201).send({
-            id_token: createToken(user)
-        });
+        getSingleUsersDB(req.body.username, function (user) {
+            res.status(201).send({
+                result : user,
+                id_token: createToken(user)
+
+            });
+        })
+
     });
 });
 app.get('/user/check/:username', function (req, res) {
