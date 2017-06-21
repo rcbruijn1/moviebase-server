@@ -35,6 +35,8 @@ app.get('/api/v1/user', function (req, res) {
     })
 });
 
+
+// Geeft informatie over de customer mee bij het inloggen
 function getSingleUsersDB(singleName,done) {
     db.get().query('SELECT * FROM customer WHERE username = "' + singleName + ' "'
         , function (err, rows, fields) {
