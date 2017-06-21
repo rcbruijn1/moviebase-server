@@ -46,7 +46,7 @@ app.post('/api/v1/register', function (req, res) {
                 first_name: req.body.firstName,
                 last_name: req.body.lastName,
                 email: req.body.email,
-                customer_id: req.body.customer
+                customer_id: req.body.customer_id
             };
             db.get().query('INSERT INTO customer SET ?', [user], function (err, result) {
                 if (err) throw err;
