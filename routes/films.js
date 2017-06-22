@@ -15,7 +15,7 @@ function GetMoviesOffsetCount(data, done) {
 
 //GET Request om alle films op te halen
 function GetAllMovies(done) {
-    db.get().query('SELECT film.title, film.description, inventory.inventory_id FROM film INNER JOIN inventory ON film.film_id = inventory.film_id ',
+    db.get().query('SELECT DISTINCT film.title, film.description FROM film INNER JOIN inventory ON film.film_id = inventory.film_id ',
         function (err, rows, fields) {
             if (err) throw err;
             done(rows);
