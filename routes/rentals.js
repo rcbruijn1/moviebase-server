@@ -16,7 +16,7 @@ var jwtCheck = jwt({
 // GET Request die alle films op die op het moment worden verhuurd
 
 function GetRentals(customerId, done) {
-    db.get().query('SELECT film.title, film.description, rental.customer_id, rental.inventory_id, rental.rental_id  FROM rental INNER JOIN inventory ON rental.inventory_id=inventory.inventory_id INNER JOIN film ON inventory.film_id=film.film_id WHERE rental_id >= 1 AND customer_id = ' + customerId, function (err, rows, fields) {
+    db.get().query('SELECT film.title, film.description, rental.customer_id, rental.inventory_id, rental.rental_id  FROM rental INNER JOIN inventory ON rental.inventory_id=inventory.inventory_id INNER JOIN film ON inventory.film_id=film.film_id WHERE is_rented = 1 AND rental_id >= 1 AND customer_id = ' + customerId, function (err, rows, fields) {
         if (err) throw err;
         done(rows);
     });
